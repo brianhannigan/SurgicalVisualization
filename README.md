@@ -1,5 +1,11 @@
 # 🧭 Brian Hannigan – Project Portfolio
 
+![GitHub last commit](https://img.shields.io/github/last-commit/brianhannigan/portfolio)
+![GitHub repo size](https://img.shields.io/github/repo-size/brianhannigan/portfolio)
+![GitHub license](https://img.shields.io/badge/license-MIT-green)
+![GitHub stars](https://img.shields.io/github/stars/brianhannigan/portfolio?style=social)
+
+
 Welcome to my **public project portfolio** — a collection of simulation, visualization, and AI-powered tools I’ve built for research, training, and experimentation.
 
 Each sub-project below includes:
