@@ -36,9 +36,9 @@ This combination enables a reliable visualization pipeline and a consistent data
 flowchart TD
     User[Operator] -->|Commands| UI[MainWindow + MVVM]
     UI --> VM[MainViewModel]
-    VM --> Loader[ModelLoader (STA Thread)]
+    VM --> Loader["ModelLoader (STA Thread)"]
     Loader --> Metrics[PrecisionMathService]
-    Loader --> Model[Model3DGroup (Frozen)]
+    Loader --> Model["Model3DGroup (Frozen)"]
     VM --> Logger[LoggerService]
     VM --> Viewport[HelixViewport3D]
     Model --> Viewport
