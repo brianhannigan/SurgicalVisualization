@@ -307,7 +307,16 @@
         const group = loader.parse(text);
         group.traverse((child) => {
           if (child.isMesh) {
-            child.material = new THREE.MeshStandardMaterial({ color: 0xb8d5ff, metalness: 0.08, roughness: 0.82 });
+            if (child.geometry?.attributes?.position && !child.geometry.attributes.normal) {
+              child.geometry.computeVertexNormals();
+            }
+            child.geometry?.computeBoundingSphere();
+            child.material = new THREE.MeshStandardMaterial({
+              color: 0xb8d5ff,
+              metalness: 0.08,
+              roughness: 0.82,
+              side: THREE.DoubleSide
+            });
           }
         });
         applyModel(group, file.name, elapsed);
