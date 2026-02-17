@@ -130,19 +130,18 @@ SurgicalVisualization/
 
 The repository also includes a browser viewer at `SurgicalVisualization/index.html`.
 
-1. Open a terminal in the project subfolder:
-   ```bash
-   cd SurgicalVisualization
-   ```
+1. Open a terminal in the repository root (`/workspace/SurgicalVisualization`) **or** in the `SurgicalVisualization/` subfolder.
 2. Start a local static web server (required so ES modules and local file loading work correctly):
    ```bash
    python -m http.server 8000
    ```
-3. Open your browser to:
-   ```
-   http://localhost:8000/index.html
-   ```
+3. Open your browser to one of these URLs:
+   - If server started from repository root: `http://localhost:8000/` (auto-redirects to the viewer)
+   - Direct path from repository root: `http://localhost:8000/SurgicalVisualization/index.html`
+   - If server started inside `SurgicalVisualization/`: `http://localhost:8000/index.html`
 
+> If you saw `Error code: 404 File not found`, the server was likely started from a different directory than the URL path expects.
+>
 > You should run through a local server rather than opening `index.html` directly from the filesystem (`file://`), otherwise browser security rules can block module imports and model loading.
 
 ---
