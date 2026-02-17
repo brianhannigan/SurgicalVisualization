@@ -1,4 +1,4 @@
-# SurgicalVisualization
+# Surgical Visualization
 
 A precision-focused WPF desktop application for inspecting and aligning 3D surgical models. The project centers on deterministic geometry calculations, traceable logging, and a clean MVVM architecture to support robot-assisted surgical guidance workflows in a controlled, reproducible way.
 
