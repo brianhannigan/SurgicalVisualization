@@ -5,6 +5,25 @@ Emphasis: deterministic math (double), traceable logging, MVVM, and thread-safe 
 
 ---
 
+## Browser Build (Three.js)
+
+A browser-compatible viewer is now included at `SurgicalVisualization/index.html`. It mirrors the core desktop workflow:
+
+- Load `.stl` / `.obj` directly in-browser
+- Orbit/pan/zoom 3D viewport
+- Deterministic model metrics (triangles, bounding box, center of mass, load time)
+- Principal-axis alignment to target vector `(0,0,1)`
+- UTC session logging with downloadable `system_log.txt`
+
+Run locally from the `SurgicalVisualization/` folder (required so assets and module imports resolve):
+
+```bash
+python -m http.server 8000
+# then open http://localhost:8000/index.html
+```
+
+---
+
 ## Tech Stack
 
 - **.NET**: `net9.0-windows` (works on `net8.0-windows` too)
