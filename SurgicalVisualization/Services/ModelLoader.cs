@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace SurgicalVisualization.Services
 {
@@ -50,10 +51,11 @@ namespace SurgicalVisualization.Services
                 Point3D? comAccum = null;
                 int comSamples = 0;
 
-                foreach (var gm in group.Children.OfType<GeometryModel3D>())
+                foreach (var gm in EnumerateGeometryModels(group))
                 {
                     if (gm.Geometry is MeshGeometry3D mesh)
                     {
+                        EnsureVisibleMaterial(gm);
                         triCount += PrecisionMathService.TriangleCount(mesh);
                         var com = PrecisionMathService.CenterOfMass(mesh);
                         if (comAccum == null) comAccum = com;
@@ -63,6 +65,13 @@ namespace SurgicalVisualization.Services
                             comAccum.Value.Z + com.Z);
                         comSamples++;
                     }
+                }
+
+                if (triCount == 0)
+                {
+                    throw new InvalidOperationException(
+                        "No triangle mesh data was found in this model. " +
+                        "For OBJ files, ensure the file contains face ('f') entries and not only points/lines.");
                 }
 
                 var bbox = group.Bounds;
@@ -87,6 +96,39 @@ namespace SurgicalVisualization.Services
             });
 
             return result;
+        }
+
+        private static IEnumerable<GeometryModel3D> EnumerateGeometryModels(Model3D model)
+        {
+            if (model is GeometryModel3D gm)
+            {
+                yield return gm;
+                yield break;
+            }
+
+            if (model is Model3DGroup group)
+            {
+                foreach (var child in group.Children)
+                {
+                    foreach (var geometry in EnumerateGeometryModels(child))
+                    {
+                        yield return geometry;
+                    }
+                }
+            }
+        }
+
+        private static void EnsureVisibleMaterial(GeometryModel3D geometry)
+        {
+            if (geometry.Material == null)
+            {
+                geometry.Material = MaterialHelper.CreateMaterial(Colors.LightGray);
+            }
+
+            if (geometry.BackMaterial == null)
+            {
+                geometry.BackMaterial = geometry.Material;
+            }
         }
 
         /// <summary>
