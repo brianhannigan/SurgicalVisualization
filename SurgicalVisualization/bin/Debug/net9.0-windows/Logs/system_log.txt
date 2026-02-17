@@ -82,3 +82,7 @@
 2025-10-14T19:57:54.2336073Z	INFO	Viewport attached.
 2025-10-14T19:58:00.6562521Z	INFO	LoadModel start	file=D:\GitHub\jobsearch\resumes\Portfolio\SurgicalVisualization\Assets\Dragon 2.5_stl.stl
 2025-10-14T19:58:00.7753127Z	INFO	LoadModel complete	file=Dragon 2.5_stl.stl	tri=37986	bbox=(151.424,98.547,32.254)	loadms=70.4
+2026-02-17T22:48:36.0708866Z	INFO	Viewport attached.
+2026-02-17T22:48:52.4280094Z	INFO	LoadModel start	file=C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\Bone obj\Bone.obj
+2026-02-17T22:48:53.5750249Z	INFO	LoadModel complete	file=Bone.obj	tri=100000	bbox=(83.935,84.306,69.262)	loadms=1032.6
+2026-02-17T22:49:03.0013295Z	INFO	ResetView invoked.
