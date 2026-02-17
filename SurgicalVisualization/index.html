@@ -161,15 +161,38 @@
   </main>
 
   <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.161.0/build/three.module.js';
-    import { OrbitControls } from 'https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js';
-    import { STLLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/STLLoader.js';
-    import { OBJLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/OBJLoader.js';
-    import { MTLLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/MTLLoader.js';
+    const CDN_BASE = 'https://unpkg.com/three@0.161.0';
+
+    async function loadThreeModules() {
+      const THREE = await import(`${CDN_BASE}/build/three.module.js`);
+      const [{ OrbitControls }, { STLLoader }, { OBJLoader }, { MTLLoader }] = await Promise.all([
+        import(`${CDN_BASE}/examples/jsm/controls/OrbitControls.js`),
+        import(`${CDN_BASE}/examples/jsm/loaders/STLLoader.js`),
+        import(`${CDN_BASE}/examples/jsm/loaders/OBJLoader.js`),
+        import(`${CDN_BASE}/examples/jsm/loaders/MTLLoader.js`)
+      ]);
+      return { THREE, OrbitControls, STLLoader, OBJLoader, MTLLoader };
+    }
+
+    let THREE;
+    let OrbitControls;
+    let STLLoader;
+    let OBJLoader;
+    let MTLLoader;
 
     const viewport = document.getElementById('viewport');
     const statusEl = document.getElementById('status');
     const logEl = document.getElementById('log');
+
+    try {
+      ({ THREE, OrbitControls, STLLoader, OBJLoader, MTLLoader } = await loadThreeModules());
+    } catch (error) {
+      statusEl.textContent = 'Failed to load 3D engine. In Brave, disable Shields for this page and reload.';
+      statusEl.style.color = 'var(--warn)';
+      logEl.value = `${new Date().toISOString()}\tModule load failed\terror=${error.message}`;
+      console.error(error);
+      throw error;
+    }
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0a1120);
