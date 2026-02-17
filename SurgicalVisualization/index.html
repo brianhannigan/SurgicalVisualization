@@ -133,7 +133,7 @@
 
       <div class="actions">
         <label class="file-label" for="model-input">Load STL/OBJ</label>
-        <input id="model-input" type="file" accept=".stl,.obj" />
+        <input id="model-input" type="file" accept=".stl,.obj,.mtl,.jpg,.jpeg,.png,.bmp,.gif,.webp" multiple />
         <button id="load-sample">Load Sample</button>
         <button id="reset-view">Reset View</button>
         <button id="align">Align to Target +Z</button>
@@ -165,6 +165,7 @@
     import { OrbitControls } from 'https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js';
     import { STLLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/STLLoader.js';
     import { OBJLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/OBJLoader.js';
+    import { MTLLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/MTLLoader.js';
 
     const viewport = document.getElementById('viewport');
     const statusEl = document.getElementById('status');
@@ -326,6 +327,62 @@
       throw new Error('Only STL and OBJ files are supported.');
     }
 
+    async function loadObjFromFileSet(files) {
+      const fileList = Array.from(files ?? []);
+      const objFile = fileList.find((f) => f.name.toLowerCase().endsWith('.obj'));
+      if (!objFile) throw new Error('No OBJ file selected.');
+
+      const started = performance.now();
+      const objText = await objFile.text();
+
+      const fileMap = new Map(fileList.map((f) => [f.name.toLowerCase(), f]));
+      const urlMap = new Map();
+      const manager = new THREE.LoadingManager();
+      manager.setURLModifier((url) => {
+        const key = decodeURIComponent(url.split('/').pop() ?? '').toLowerCase();
+        const resource = fileMap.get(key);
+        if (!resource) return url;
+        if (!urlMap.has(key)) {
+          urlMap.set(key, URL.createObjectURL(resource));
+        }
+        return urlMap.get(key);
+      });
+
+      try {
+        let materials = null;
+        const mtlFile = fileList.find((f) => f.name.toLowerCase().endsWith('.mtl'));
+        if (mtlFile) {
+          const mtlText = await mtlFile.text();
+          materials = new MTLLoader(manager).parse(mtlText);
+          materials.preload();
+        }
+
+        const loader = new OBJLoader(manager);
+        if (materials) loader.setMaterials(materials);
+        const group = loader.parse(objText);
+
+        group.traverse((child) => {
+          if (!child.isMesh) return;
+          if (child.geometry?.attributes?.position && !child.geometry.attributes.normal) {
+            child.geometry.computeVertexNormals();
+          }
+          child.geometry?.computeBoundingSphere();
+          if (!child.material) {
+            child.material = new THREE.MeshStandardMaterial({
+              color: 0xb8d5ff,
+              metalness: 0.08,
+              roughness: 0.82,
+              side: THREE.DoubleSide
+            });
+          }
+        });
+
+        applyModel(group, objFile.name, performance.now() - started);
+      } finally {
+        urlMap.forEach((url) => URL.revokeObjectURL(url));
+      }
+    }
+
     async function loadSample() {
       setStatus('Loading sample model...');
       try {
@@ -341,14 +398,19 @@
     }
 
     document.getElementById('model-input').addEventListener('change', async (event) => {
-      const file = event.target.files?.[0];
-      if (!file) return;
+      const files = Array.from(event.target.files ?? []);
+      if (!files.length) return;
       setStatus('Loading model...');
       try {
-        await loadFromFile(file);
+        const objCount = files.filter((f) => f.name.toLowerCase().endsWith('.obj')).length;
+        if (objCount > 0) {
+          await loadObjFromFileSet(files);
+        } else {
+          await loadFromFile(files[0]);
+        }
       } catch (error) {
         setStatus(`Load failed: ${error.message}`, false);
-        writeLog(`LoadModel failed\tfile=${file.name}\terror=${error.message}`);
+        writeLog(`LoadModel failed\tfile=${files.map((f) => f.name).join(',')}\terror=${error.message}`);
       }
     });
 
