@@ -1,4 +1,5 @@
 <img width="1179" height="786" alt="image" src="https://github.com/user-attachments/assets/535b2d24-a53a-4d65-bf37-ab732f04bc6a" />
+<img width="1591" height="719" alt="image" src="https://github.com/user-attachments/assets/fb3085ce-c80a-4429-9f53-793a3d31ea09" />
 
 # Surgical Visualization
 
