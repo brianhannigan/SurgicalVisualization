@@ -32,7 +32,9 @@
       gap: 14px;
       padding: 14px;
       height: 100vh;
+      align-items: stretch;
     }
+
 
     .panel {
       background: linear-gradient(180deg, var(--panel) 0%, #0d1629 100%);
@@ -86,18 +88,20 @@
     }
 
     .viewer {
-      min-height: 420px;
       border-radius: 12px;
       border: 1px solid #273552;
       overflow: hidden;
       position: relative;
       background: #080d18;
+      height: 100%;
+      min-height: 420px;
     }
 
     #viewport {
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      inset: 0;
     }
+
 
     #status {
       color: var(--ok);
@@ -204,6 +208,15 @@
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(viewport.clientWidth, viewport.clientHeight);
     viewport.appendChild(renderer.domElement);
+
+    requestAnimationFrame(() => {
+      const w = viewport.clientWidth;
+      const h = viewport.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      writeLog(`Viewport size w=${w} h=${h}`);
+    });
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
