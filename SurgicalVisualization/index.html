@@ -410,15 +410,11 @@
       setStatus('Loading sample model...');
 
       const sampleCandidates = [
-        {
-          url: './bin/Debug/net9.0-windows/Assets/bone_sample.stl',
-          fileName: 'bone_sample.stl'
-        },
-        {
-          url: './Assets/Dragon%202.5_stl.stl',
-          fileName: 'Dragon 2.5_stl.stl'
-        }
+        { url: './Assets/bone_sample.stl', fileName: 'bone_sample.stl' },
+        { url: './Assets/implant_sample.stl', fileName: 'implant_sample.stl' },
+        { url: './Assets/Dragon%202.5_stl.stl', fileName: 'Dragon 2.5_stl.stl' }
       ];
+
 
       for (const sample of sampleCandidates) {
         try {

@@ -95,6 +95,6 @@
 2026-02-18T13:52:25.5282030Z	INFO	LoadModel complete	file=Bone.obj	tri=100000	bbox=(83.935,84.306,69.262)	loadms=821.2
 2026-02-18T13:52:29.5166483Z	INFO	ResetView invoked.
 2026-02-18T13:52:31.1273419Z	INFO	AlignDevice principal=0,1,0 target=0,0,1 angle=90.000
-2026-02-18T14:24:22.1776744Z	INFO	Viewport attached.
-2026-02-18T14:24:23.8455749Z	INFO	LoadModel start	file=C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\Assets\Dragon 2.5_stl.stl
-2026-02-18T14:24:24.1595340Z	INFO	LoadModel complete	file=Dragon 2.5_stl.stl	tri=37986	bbox=(151.424,98.547,32.254)	loadms=167.7
+2026-02-18T14:46:40.5605304Z	INFO	Viewport attached.
+2026-02-18T14:46:41.6204617Z	INFO	LoadModel start	file=C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization1\SurgicalVisualization\bin\Debug\net9.0-windows\Assets\Dragon 2.5_stl.stl
+2026-02-18T14:46:41.8661027Z	INFO	LoadModel complete	file=Dragon 2.5_stl.stl	tri=37986	bbox=(151.424,98.547,32.254)	loadms=96.6

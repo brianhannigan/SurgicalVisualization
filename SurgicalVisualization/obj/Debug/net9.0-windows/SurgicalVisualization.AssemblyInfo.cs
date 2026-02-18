@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SurgicalVisualization")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4cc321d259ba9680d32407b88b777e979b449e2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b327f1b18c25ebbdf8e491376845f2a54ca43376")]
 [assembly: System.Reflection.AssemblyProductAttribute("SurgicalVisualization")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SurgicalVisualization")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
