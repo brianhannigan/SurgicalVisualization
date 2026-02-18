@@ -12,8 +12,9 @@ namespace SurgicalVisualization
             vm.AttachViewport(Viewport);
 
             // Ensure the viewport has keyboard/mouse focus so gestures are active
-            Loaded += (_, __) =>
+            Loaded += async (_, __) =>
             {
+                await vm.LoadStartupSampleAsync();
                 Viewport.Focus();          // activate camera controller gestures
                 Viewport.ZoomExtents();    // fit current content (also runs on first load)
             };
