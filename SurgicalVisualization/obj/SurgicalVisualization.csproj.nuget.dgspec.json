@@ -1,25 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GitHub\\jobsearch\\resumes\\Portfolio\\SurgicalVisualization\\SurgicalVisualization.csproj": {}
+    "C:\\Users\\BrianH\\Documents\\0000 - Portfolio\\SurgicalVisualization\\SurgicalVisualization\\SurgicalVisualization.csproj": {}
   },
   "projects": {
-    "D:\\GitHub\\jobsearch\\resumes\\Portfolio\\SurgicalVisualization\\SurgicalVisualization.csproj": {
+    "C:\\Users\\BrianH\\Documents\\0000 - Portfolio\\SurgicalVisualization\\SurgicalVisualization\\SurgicalVisualization.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GitHub\\jobsearch\\resumes\\Portfolio\\SurgicalVisualization\\SurgicalVisualization.csproj",
+        "projectUniqueName": "C:\\Users\\BrianH\\Documents\\0000 - Portfolio\\SurgicalVisualization\\SurgicalVisualization\\SurgicalVisualization.csproj",
         "projectName": "SurgicalVisualization",
-        "projectPath": "D:\\GitHub\\jobsearch\\resumes\\Portfolio\\SurgicalVisualization\\SurgicalVisualization.csproj",
-        "packagesPath": "C:\\Users\\brian\\.nuget\\packages\\",
-        "outputPath": "D:\\GitHub\\jobsearch\\resumes\\Portfolio\\SurgicalVisualization\\obj\\",
+        "projectPath": "C:\\Users\\BrianH\\Documents\\0000 - Portfolio\\SurgicalVisualization\\SurgicalVisualization\\SurgicalVisualization.csproj",
+        "packagesPath": "C:\\Users\\BrianH\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\BrianH\\Documents\\0000 - Portfolio\\SurgicalVisualization\\SurgicalVisualization\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\brian\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\BrianH\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
         ],
         "originalTargetFrameworks": [
           "net9.0-windows"
@@ -51,7 +50,7 @@
           "dependencies": {
             "CommunityToolkit.Mvvm": {
               "target": "Package",
-              "version": "[8.2.2, )"
+              "version": "[8.3.2, )"
             },
             "HelixToolkit.Wpf": {
               "target": "Package",
@@ -81,7 +80,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\BrianH\\.dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

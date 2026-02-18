@@ -1,4 +1,5 @@
 is_global = true
+build_property.MvvmToolkitEnableINotifyPropertyChangingSupport = true
 build_property.TargetFramework = net9.0-windows
 build_property.TargetPlatformMinVersion = 7.0
 build_property.UsingMicrosoftNETSdkWeb = 
@@ -8,7 +9,7 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SurgicalVisualization
-build_property.ProjectDir = D:\GitHub\jobsearch\resumes\Portfolio\SurgicalVisualization\
+build_property.ProjectDir = C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

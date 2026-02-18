@@ -50,3 +50,36 @@ D:\GitHub\jobsearch\resumes\Portfolio\SurgicalVisualization\obj\Debug\net9.0-win
 D:\GitHub\jobsearch\resumes\Portfolio\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.pdb
 D:\GitHub\jobsearch\resumes\Portfolio\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.genruntimeconfig.cache
 D:\GitHub\jobsearch\resumes\Portfolio\SurgicalVisualization\obj\Debug\net9.0-windows\ref\SurgicalVisualization.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\refint\SurgicalVisualization.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.pdb
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\Assets\bone_sample.stl
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\Assets\Dragon 2.5_stl.stl
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\SurgicalVisualization.exe
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\SurgicalVisualization.deps.json
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\SurgicalVisualization.runtimeconfig.json
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\SurgicalVisualization.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\SurgicalVisualization.pdb
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\CommunityToolkit.Common.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\CommunityToolkit.Diagnostics.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\CommunityToolkit.Mvvm.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\HelixToolkit.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\HelixToolkit.Geometry.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\HelixToolkit.Maths.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\HelixToolkit.Wpf.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.csproj.AssemblyReference.cache
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\MainWindow.baml
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\MainWindow.g.cs
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\App.g.cs
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization_MarkupCompile.cache
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.g.resources
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.AssemblyInfoInputs.cache
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.AssemblyInfo.cs
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.csproj.CoreCompileInputs.cache
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.sourcelink.json
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\Surgical.DF9C31E6.Up2Date
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\SurgicalVisualization.genruntimeconfig.cache
+C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\obj\Debug\net9.0-windows\ref\SurgicalVisualization.dll
