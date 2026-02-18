@@ -4,6 +4,7 @@ using SurgicalVisualization.Models;
 using SurgicalVisualization.Services;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -135,6 +136,40 @@ namespace SurgicalVisualization.ViewModels
                 var path = Helpers.FileDialogHelper.OpenModelDialog();
                 if (string.IsNullOrWhiteSpace(path)) return;
 
+                await LoadModelFromPathAsync(path);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("LoadModel failed: " + ex);
+                StatusMessage = "Error loading model.";
+                MessageBoxShim.Show("Error loading model: " + ex.Message, "Load Error");
+            }
+        }
+
+        public async Task LoadStartupSampleAsync()
+        {
+            string baseDir = AppContext.BaseDirectory;
+            string[] startupCandidates =
+            {
+                Path.Combine(baseDir, "Assets", "Dragon 2.5_stl.stl"),
+                Path.Combine(baseDir, "Assets", "bone_sample.stl")
+            };
+
+            var startupModelPath = startupCandidates.FirstOrDefault(File.Exists);
+            if (startupModelPath is null)
+            {
+                _logger.Warn("No startup sample model found (expected Dragon or bone sample in Assets).");
+                return;
+            }
+
+            await LoadModelFromPathAsync(startupModelPath);
+        }
+
+        private async Task LoadModelFromPathAsync(string path)
+        {
+            try
+            {
+
                 StatusMessage = "Loading model...";
                 _logger.Info($"LoadModel start\tfile={path}");
 
@@ -167,7 +202,7 @@ namespace SurgicalVisualization.ViewModels
             }
             catch (Exception ex)
             {
-                _logger.Error("LoadModel failed: " + ex);
+                _logger.Error($"LoadModel failed\tfile={path}\t{ex}");
                 StatusMessage = "Error loading model.";
                 MessageBoxShim.Show("Error loading model: " + ex.Message, "Load Error");
             }
