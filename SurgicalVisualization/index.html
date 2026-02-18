@@ -408,17 +408,37 @@
 
     async function loadSample() {
       setStatus('Loading sample model...');
-      try {
-        const response = await fetch('./Assets/Dragon%202.5_stl.stl');
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const blob = await response.blob();
-        const file = new File([blob], 'Dragon 2.5_stl.stl');
-        await loadFromFile(file);
-      } catch (error) {
-        setStatus(`Sample load failed: ${error.message}`, false);
-        writeLog(`LoadModel failed\terror=${error.message}`);
+
+      const sampleCandidates = [
+        {
+          url: './bin/Debug/net9.0-windows/Assets/bone_sample.stl',
+          fileName: 'bone_sample.stl'
+        },
+        {
+          url: './Assets/Dragon%202.5_stl.stl',
+          fileName: 'Dragon 2.5_stl.stl'
+        }
+      ];
+
+      for (const sample of sampleCandidates) {
+        try {
+          const response = await fetch(sample.url);
+          if (!response.ok) continue;
+          const blob = await response.blob();
+          const file = new File([blob], sample.fileName);
+          await loadFromFile(file);
+          writeLog(`Loaded startup sample	file=${sample.fileName}	source=${sample.url}`);
+          return;
+        } catch (error) {
+          writeLog(`Sample candidate failed	file=${sample.fileName}	error=${error.message}`);
+        }
       }
+
+      const message = 'Sample load failed: no startup sample could be retrieved.';
+      setStatus(message, false);
+      writeLog(`LoadModel failed	error=${message}`);
     }
+
 
     document.getElementById('model-input').addEventListener('change', async (event) => {
       const files = Array.from(event.target.files ?? []);
