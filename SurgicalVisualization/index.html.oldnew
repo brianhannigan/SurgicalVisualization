@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Surgical Visualization (Browser)</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0b1220;
+            --panel: #111a2e;
+            --panel-soft: #17233c;
+            --accent: #67b8ff;
+            --ok: #8be9a8;
+            --warn: #ffd480;
+            --text: #e7edf8;
+            --muted: #9cb0d1;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle at top, #13203a, var(--bg) 50%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(320px, 420px) 1fr;
+            gap: 14px;
+            padding: 14px;
+            height: 100vh;
+            align-items: stretch;
+        }
+
+        .panel {
+            background: linear-gradient(180deg, var(--panel) 0%, #0d1629 100%);
+            border: 1px solid #273552;
+            border-radius: 12px;
+            padding: 12px;
+            overflow: auto;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        h1 { margin: 6px 0 2px; font-size: 1.2rem; }
+        h2 { margin: 18px 0 10px; font-size: 1rem; color: var(--accent); }
+        p { margin: 6px 0; color: var(--muted); }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        button, .file-label {
+            width: 100%;
+            border: 1px solid #2e4369;
+            background: var(--panel-soft);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 9px 10px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        button:hover, .file-label:hover { border-color: #4f74ad; }
+        button:active, .file-label:active { transform: translateY(1px); }
+        input[type="file"] { display: none; }
+
+        .metrics {
+            display: grid;
+            gap: 7px;
+            margin-top: 12px;
+            font-size: 0.93rem;
+        }
+
+        .metric {
+            background: #101c34;
+            border: 1px solid #24385b;
+            border-radius: 8px;
+            padding: 8px;
+            line-height: 1.35;
+        }
+
+        .viewer{
+            border-radius: 12px;
+            border: 1px solid #273552;
+            overflow: hidden;
+            position: relative;
+            background: #080d18;
+            height: calc(100vh - 28px);
+            min-height: 420px;
+        }
+
+        #viewport{
+            position: absolute;
+            inset: 0;
+        }
+
+        #status {
+            color: var(--ok);
+            font-weight: 600;
+        }
+
+        #log {
+            width: 100%;
+            min-height: 130px;
+            margin-top: 8px;
+            border-radius: 8px;
+            background: #0a1326;
+            color: #c0d4f4;
+            border: 1px solid #23365b;
+            padding: 8px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            resize: vertical;
+        }
+
+        @media (max-width: 1000px) {
+            .layout { grid-template-columns: 1fr; height: auto; }
+            .viewer { height: 62vh; }
+        }
+    </style>
+
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+            "three/examples/jsm/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+          }
+        }
+    </script>
+</head>
+
+<body>
+<main class="layout">
+    <section class="panel">
+        <h1>Surgical Visualization (Web)</h1>
+        <p>Browser port of the WPF workflow for STL/OBJ inspection, deterministic metrics, and camera-aligned model orientation.</p>
+        <p id="status">Ready.</p>
+
+        <div class="actions">
+            <label class="file-label" for="model-input">Load STL/OBJ</label>
+            <input id="model-input" type="file" accept=".stl,.obj,.mtl" multiple />
+            <button id="load-sample">Load Sample</button>
+            <button id="reset-view">Reset View</button>
+            <button id="align">Align to Target +Z</button>
+            <button id="download-log">Export Log</button>
+        </div>
+
+        <h2>Model Metrics</h2>
+        <div class="metrics">
+            <div class="metric" id="active-model">Active model: (none)</div>
+            <div class="metric" id="triangle-count">Triangles: -</div>
+            <div class="metric" id="bbox">Bounding Box (mm): -</div>
+            <div class="metric" id="com">Center of Mass (mm): -</div>
+            <div class="metric" id="load-time">Load: -</div>
+            <div class="metric" id="orientation">Orientation: -</div>
+        </div>
+
+        <h2>Session Log</h2>
+        <p>UTC ISO-8601 logging to mirror the desktop app's traceability workflow.</p>
+        <textarea id="log" readonly></textarea>
+    </section>
+
+    <section class="viewer">
+        <div id="viewport"></div>
+    </section>
+</main>
+
+<script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+    import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
+    import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+    import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
+
+    const viewport = document.getElementById('viewport');
+    const statusEl = document.getElementById('status');
+    const logEl = document.getElementById('log');
+
+    const logLines = [];
+    function writeLog(message) {
+        const line = `${new Date().toISOString()}\t${message}`;
+        logLines.push(line);
+        logEl.value = logLines.join('\n');
+        logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function setStatus(text, isOk = true) {
+        statusEl.textContent = text;
+        statusEl.style.color = isOk ? 'var(--ok)' : 'var(--warn)';
+    }
+
+    setStatus('Three.js modules loaded ✅');
+    writeLog('Three.js modules loaded ✅');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a1120);
+
+    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 30000);
+    camera.position.set(200, 180, 210);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    viewport.appendChild(renderer.domElement);
+
+    if (!renderer.getContext()) {
+        setStatus('WebGL context failed ❌ (hardware acceleration / shields)', false);
+        writeLog('WebGL context failed ❌');
+    }
+
+    // Single resize function (no log spam)
+    function resize() {
+        const w = viewport.clientWidth;
+        const h = viewport.clientHeight;
+        if (w <= 0 || h <= 0) return;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+    }
+
+    // ResizeObserver WITHOUT spamming the log
+    const ro = new ResizeObserver(() => resize());
+    ro.observe(viewport);
+
+    // Also do an initial resize once layout is ready
+    requestAnimationFrame(() => {
+        resize();
+        writeLog(`Viewport ready w=${viewport.clientWidth} h=${viewport.clientHeight}`);
+    });
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.target.set(0, 0, 0);
+
+    window.addEventListener('beforeunload', () => ro.disconnect());
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.1);
+    keyLight.position.set(120, 180, 80);
+    scene.add(keyLight);
+
+    scene.add(new THREE.GridHelper(300, 20, 0x35537f, 0x243b63));
+
+    // Debug geometry
+    scene.add(new THREE.AxesHelper(100));
+    const debugCube = new THREE.Mesh(
+        new THREE.BoxGeometry(20, 20, 20),
+        new THREE.MeshStandardMaterial({ color: 0xff66aa })
+    );
+    debugCube.position.set(0, 10, 0);
+    scene.add(debugCube);
+
+    let activeObject = null;
+
+    const ui = {
+        name: document.getElementById('active-model'),
+        tri: document.getElementById('triangle-count'),
+        bbox: document.getElementById('bbox'),
+        com: document.getElementById('com'),
+        load: document.getElementById('load-time'),
+        orientation: document.getElementById('orientation')
+    };
+
+    function extractMetrics(meshOrGroup) {
+        const box = new THREE.Box3().setFromObject(meshOrGroup);
+        const size = new THREE.Vector3();
+        const center = new THREE.Vector3();
+        box.getSize(size);
+        box.getCenter(center);
+
+        let triangles = 0;
+        meshOrGroup.traverse((child) => {
+            if (!child.isMesh || !child.geometry) return;
+            const g = child.geometry;
+            triangles += g.index ? g.index.count / 3 : g.attributes.position.count / 3;
+        });
+
+        return { box, size, center, triangles: Math.round(triangles) };
+    }
+
+    function removeActiveModel() {
+        if (!activeObject) return;
+        scene.remove(activeObject);
+        activeObject.traverse((child) => {
+            if (child.geometry) child.geometry.dispose();
+            if (child.material) {
+                const materials = Array.isArray(child.material) ? child.material : [child.material];
+                materials.forEach((m) => m.dispose());
+            }
+        });
+        activeObject = null;
+    }
+
+    function updateOrientation(meshOrGroup) {
+        const euler = new THREE.Euler().setFromQuaternion(meshOrGroup.quaternion, 'YXZ');
+        const deg = (r) => (r * 180 / Math.PI).toFixed(3);
+        ui.orientation.textContent = `Orientation (deg): Pitch=${deg(euler.x)}  Yaw=${deg(euler.y)}  Roll=${deg(euler.z)}`;
+    }
+
+    function frameModel(metrics) {
+        const size = metrics.size;
+        const center = metrics.center;
+
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const radius = Math.max(maxDim * 1.2, 50);
+
+        controls.target.copy(center);
+
+        camera.position.copy(center).add(new THREE.Vector3(radius, radius * 0.8, radius));
+        camera.near = Math.max(radius / 1000, 0.01);
+        camera.far = radius * 1000;
+        camera.updateProjectionMatrix();
+
+        camera.lookAt(center);
+        controls.update();
+    }
+
+    function principalAxisFromBounds(size) {
+        if (size.x >= size.y && size.x >= size.z) return new THREE.Vector3(1, 0, 0);
+        if (size.y >= size.x && size.y >= size.z) return new THREE.Vector3(0, 1, 0);
+        return new THREE.Vector3(0, 0, 1);
+    }
+
+    function applyModel(modelRoot, fileName, loadMs) {
+        removeActiveModel();
+        activeObject = modelRoot;
+        scene.add(activeObject);
+
+        const metrics = extractMetrics(activeObject);
+        ui.name.textContent = `Active model: ${fileName}`;
+        ui.tri.textContent = `Triangles: ${metrics.triangles}`;
+        ui.bbox.textContent = `Bounding Box (mm): X=${metrics.size.x.toFixed(3)}  Y=${metrics.size.y.toFixed(3)}  Z=${metrics.size.z.toFixed(3)}`;
+        ui.com.textContent = `Center of Mass (mm): ${metrics.center.x.toFixed(3)}, ${metrics.center.y.toFixed(3)}, ${metrics.center.z.toFixed(3)}`;
+        ui.load.textContent = `Load: ${loadMs.toFixed(1)} ms`;
+        updateOrientation(activeObject);
+
+        frameModel(metrics);
+        setStatus('Model loaded.');
+        writeLog(`LoadModel complete\tfile=${fileName}\ttri=${metrics.triangles}\tloadms=${loadMs.toFixed(1)}`);
+    }
+
+    async function loadFromFile(file) {
+        const started = performance.now();
+        const ext = file.name.toLowerCase().split('.').pop();
+        const buffer = await file.arrayBuffer();
+        const elapsed = performance.now() - started;
+
+        if (ext === 'stl') {
+            const loader = new STLLoader();
+            const geometry = loader.parse(buffer);
+            geometry.computeVertexNormals();
+            const mesh = new THREE.Mesh(
+                geometry,
+                new THREE.MeshStandardMaterial({ color: 0xc6d8ff, metalness: 0.1, roughness: 0.75 })
+            );
+            applyModel(mesh, file.name, elapsed);
+            return;
+        }
+
+        if (ext === 'obj') {
+            const text = new TextDecoder().decode(buffer);
+            const loader = new OBJLoader();
+            const group = loader.parse(text);
+            group.traverse((child) => {
+                if (child.isMesh) {
+                    if (child.geometry?.attributes?.position && !child.geometry.attributes.normal) {
+                        child.geometry.computeVertexNormals();
+                    }
+                    child.geometry?.computeBoundingSphere();
+                    child.material = new THREE.MeshStandardMaterial({
+                        color: 0xb8d5ff,
+                        metalness: 0.08,
+                        roughness: 0.82,
+                        side: THREE.DoubleSide
+                    });
+                }
+            });
+            applyModel(group, file.name, elapsed);
+            return;
+        }
+
+        throw new Error('Only STL and OBJ files are supported.');
+    }
+
+    async function loadObjFromFileSet(files) {
+        const fileList = Array.from(files ?? []);
+        const objFile = fileList.find((f) => f.name.toLowerCase().endsWith('.obj'));
+        if (!objFile) throw new Error('No OBJ file selected.');
+
+        const started = performance.now();
+        const objText = await objFile.text();
+
+        const fileMap = new Map(fileList.map((f) => [f.name.toLowerCase(), f]));
+        const urlMap = new Map();
+        const manager = new THREE.LoadingManager();
+        manager.setURLModifier((url) => {
+            const key = decodeURIComponent(url.split('/').pop() ?? '').toLowerCase();
+            const resource = fileMap.get(key);
+            if (!resource) return url;
+            if (!urlMap.has(key)) {
+                urlMap.set(key, URL.createObjectURL(resource));
+            }
+            return urlMap.get(key);
+        });
+
+        try {
+            let materials = null;
+            const mtlFile = fileList.find((f) => f.name.toLowerCase().endsWith('.mtl'));
+            if (mtlFile) {
+                const mtlText = await mtlFile.text();
+                materials = new MTLLoader(manager).parse(mtlText);
+                materials.preload();
+            }
+
+            const loader = new OBJLoader(manager);
+            if (materials) loader.setMaterials(materials);
+            const group = loader.parse(objText);
+
+            group.traverse((child) => {
+                if (!child.isMesh) return;
+                if (child.geometry?.attributes?.position && !child.geometry.attributes.normal) {
+                    child.geometry.computeVertexNormals();
+                }
+                child.geometry?.computeBoundingSphere();
+                if (!child.material) {
+                    child.material = new THREE.MeshStandardMaterial({
+                        color: 0xb8d5ff,
+                        metalness: 0.08,
+                        roughness: 0.82,
+                        side: THREE.DoubleSide
+                    });
+                }
+            });
+
+            applyModel(group, objFile.name, performance.now() - started);
+        } finally {
+            urlMap.forEach((url) => URL.revokeObjectURL(url));
+        }
+    }
+
+    async function loadSample() {
+        setStatus('Loading sample model...');
+        const sampleCandidates = [
+            { url: './Assets/bone_sample.stl', fileName: 'bone_sample.stl' },
+            { url: './Assets/Bone.obj', fileName: 'Bone.obj' },
+            { url: './Assets/Dragon%202.5_stl.stl', fileName: 'Dragon 2.5_stl.stl' }
+        ];
+
+        for (const sample of sampleCandidates) {
+            try {
+                const response = await fetch(sample.url);
+                if (!response.ok) continue;
+                const blob = await response.blob();
+                const file = new File([blob], sample.fileName);
+                await loadFromFile(file);
+                writeLog(`Loaded startup sample\tfile=${sample.fileName}\tsource=${sample.url}`);
+                return;
+            } catch (error) {
+                writeLog(`Sample candidate failed\tfile=${sample.fileName}\terror=${error.message}`);
+            }
+        }
+
+        const message = 'Sample load failed: no startup sample could be retrieved.';
+        setStatus(message, false);
+        writeLog(`LoadModel failed\terror=${message}`);
+    }
+
+    document.getElementById('model-input').addEventListener('change', async (event) => {
+        const files = Array.from(event.target.files ?? []);
+        if (!files.length) return;
+
+        setStatus('Loading model...');
+        try {
+            const objCount = files.filter((f) => f.name.toLowerCase().endsWith('.obj')).length;
+            if (objCount > 0) {
+                await loadObjFromFileSet(files);
+            } else {
+                await loadFromFile(files[0]);
+            }
+        } catch (error) {
+            setStatus(`Load failed: ${error.message}`, false);
+            writeLog(`LoadModel failed\tfile=${files.map((f) => f.name).join(',')}\terror=${error.message}`);
+        }
+    });
+
+    document.getElementById('reset-view').addEventListener('click', () => {
+        if (!activeObject) return;
+        const metrics = extractMetrics(activeObject);
+        frameModel(metrics);
+        setStatus('View reset.');
+        writeLog('ResetView');
+    });
+
+    document.getElementById('align').addEventListener('click', () => {
+        if (!activeObject) {
+            setStatus('No model loaded.', false);
+            return;
+        }
+
+        const metrics = extractMetrics(activeObject);
+        const currentAxis = principalAxisFromBounds(metrics.size).normalize();
+        const target = new THREE.Vector3(0, 0, 1);
+        const quat = new THREE.Quaternion().setFromUnitVectors(currentAxis, target);
+        activeObject.applyQuaternion(quat);
+
+        updateOrientation(activeObject);
+        setStatus('Model aligned to +Z target.');
+        writeLog('AlignDevice complete\ttarget=(0,0,1)');
+    });
+
+    document.getElementById('download-log').addEventListener('click', () => {
+        const content = logLines.join('\n') + '\n';
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'system_log.txt';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        setStatus('Log exported.');
+        writeLog('ExportLog complete');
+    });
+
+    document.getElementById('load-sample').addEventListener('click', loadSample);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    writeLog('Web viewer initialized');
+    loadSample();
+    animate();
+</script>
+</body>
+</html>

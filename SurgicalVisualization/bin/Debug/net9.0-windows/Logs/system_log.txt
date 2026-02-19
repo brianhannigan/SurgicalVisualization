@@ -98,3 +98,6 @@
 2026-02-18T14:46:40.5605304Z	INFO	Viewport attached.
 2026-02-18T14:46:41.6204617Z	INFO	LoadModel start	file=C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization1\SurgicalVisualization\bin\Debug\net9.0-windows\Assets\Dragon 2.5_stl.stl
 2026-02-18T14:46:41.8661027Z	INFO	LoadModel complete	file=Dragon 2.5_stl.stl	tri=37986	bbox=(151.424,98.547,32.254)	loadms=96.6
+2026-02-18T20:24:15.5929334Z	INFO	Viewport attached.
+2026-02-18T20:24:16.8169966Z	INFO	LoadModel start	file=C:\Users\BrianH\Documents\0000 - Portfolio\SurgicalVisualization\SurgicalVisualization\bin\Debug\net9.0-windows\Assets\Dragon 2.5_stl.stl
+2026-02-18T20:24:17.0501800Z	INFO	LoadModel complete	file=Dragon 2.5_stl.stl	tri=37986	bbox=(151.424,98.547,32.254)	loadms=91.4
