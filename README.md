@@ -144,21 +144,24 @@ These documents focus strictly on engineering decisions and deterministic system
 
 ---
 
-# Architecture Overview
+# 🧊 Architecture Overview
 
-```mermaid
-flowchart TD
-    User[Operator] -->|Commands| UI[MainWindow + MVVM]
-    UI --> VM[MainViewModel]
-    VM --> Loader["ModelLoader (STA Thread)"]
-    Loader --> Metrics[PrecisionMathService]
-    Loader --> Model["Model3DGroup (Frozen)"]
-    VM --> Logger[LoggerService]
-    VM --> Viewport[HelixViewport3D]
-    Model --> Viewport
-    Metrics --> VM
-    Logger --> Logs[(Logs/system_log.txt)]
-```
+<p align="center">
+  <img src="SurgicalVisualization/Assets/architecture-3d-erd.svg" width="95%" alt="SurgicalVisualization Architecture Diagram" />
+</p>
+
+This diagram illustrates the deterministic visualization pipeline:
+
+- **MainWindow (WPF UI Layer)**
+- **MainViewModel (Orchestration Layer)**
+- **ModelLoader (STA Thread Construction)**
+- **PrecisionMathService (Deterministic Geometry Metrics)**
+- **LoggerService (Audit Logging Layer)**
+- **HelixViewport3D (GPU Rendering Engine)**
+- **Browser Viewer (Three.js / WebGL Parity Layer)**
+
+The system emphasizes thread isolation, deterministic computation, and audit-ready logging.
+---
 
 ### Architectural Highlights
 
