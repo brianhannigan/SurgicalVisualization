@@ -53,6 +53,58 @@ This project reflects engineering discipline suited for controlled environments 
 <img src="SurgicalVisualization/Assets/screens/browser-viewer.png" width="85%" />
 
 </p>
+---
+---
+
+# 📊 Performance Benchmark (Baseline)
+
+> Illustrative baseline snapshot. Replace with measured hardware data when finalized.
+
+<p align="center">
+  <img src="SurgicalVisualization/Assets/performance-benchmarks.png" width="90%" alt="Performance Benchmarks" />
+</p>
+
+**Notes**
+- Desktop rendering uses HelixToolkit + DirectX
+- Deterministic metric computations use double precision
+- Logging uses UTC ISO-8601 invariant formatting
+
+---
+
+# 🎞️ Solid vs Wireframe (Animated)
+
+<p align="center">
+  <img src="SurgicalVisualization/Assets/hero-split-solid-wireframe.gif" width="95%" alt="Solid vs Wireframe Animated Split" />
+</p>
+
+This highlights inspection workflows where both surface continuity and mesh topology matter.
+
+---
+
+# 🧊 3D ERD-Style Architecture Diagram
+
+<p align="center">
+  <img src="SurgicalVisualization/Assets/architecture-3d-erd.svg" width="95%" alt="3D Architecture Diagram" />
+</p>
+
+This diagram summarizes the deterministic pipeline across:
+
+- Desktop (WPF + HelixToolkit)
+- Browser (Three.js)
+- Metrics & Alignment Engine
+- Audit Logging Layer
+
+---
+
+# 📝 Technical Documentation
+
+Implementation-focused writeups live in `/docs`:
+
+- `docs/technical-deep-dive.md`
+- `docs/quaternion-alignment.md`
+- `docs/browser-viewer-notes.md`
+
+These documents focus strictly on engineering decisions and deterministic system design.
 
 ---
 
