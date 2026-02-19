@@ -1,8 +1,42 @@
 <p align="center">
 
-<img src="assets/desktop-main.png" width="95%" />
+<svg width="100%" height="180" viewBox="0 0 1200 180" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="180" fill="url(#bg)" rx="18"/>
+
+  <line x1="200" y1="90" x2="1000" y2="90" stroke="url(#accent)" stroke-width="2" opacity="0.35"/>
+
+  <text x="50%" y="75" dominant-baseline="middle" text-anchor="middle"
+        fill="#f1f5f9"
+        font-family="Segoe UI, sans-serif"
+        font-size="40"
+        font-weight="600">
+        Surgical Visualization
+  </text>
+
+  <text x="50%" y="115" dominant-baseline="middle" text-anchor="middle"
+        fill="#94a3b8"
+        font-family="Segoe UI, sans-serif"
+        font-size="18">
+        Deterministic 3D Surgical Model Inspection Platform
+  </text>
+
+</svg>
 
 </p>
+
 
 # 🧠 Surgical Visualization
 
