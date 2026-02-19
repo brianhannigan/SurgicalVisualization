@@ -38,7 +38,7 @@
 </p>
 
 
-# 🧠 Surgical Visualization
+# 🧠 SurgicalVisualization
 
 <p align="center">
 
@@ -345,4 +345,3 @@ This repository demonstrates:
 - AI-assisted anomaly detection
 
 ---
-
