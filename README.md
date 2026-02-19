@@ -1,7 +1,7 @@
 <p align="center">
   <img src="SurgicalVisualization/Assets/header.svg" width="100%" />
 </p>
----
+
 # 🧠 SurgicalVisualization
 
 <p align="center">
