@@ -1,40 +1,100 @@
-<img width="1179" height="786" alt="image" src="https://github.com/user-attachments/assets/535b2d24-a53a-4d65-bf37-ab732f04bc6a" />
-<img width="1587" height="731" alt="image" src="https://github.com/user-attachments/assets/cb7a5736-4c7e-4ee4-a7f9-7cfdda29ba5f" />
+<p align="center">
 
+<img src="assets/desktop-main.png" width="95%" />
 
-# Surgical Visualization
+</p>
 
-A precision-focused WPF desktop application for inspecting and aligning 3D surgical models. The project centers on deterministic geometry calculations, traceable logging, and a clean MVVM architecture to support robot-assisted surgical guidance workflows in a controlled, reproducible way.
+# 🧠 Surgical Visualization
 
-The solution lives in `SurgicalVisualization/` and ships with a HelixToolkit-based viewport for STL/OBJ import, metrics extraction, and camera telemetry.
+<p align="center">
 
----
+![.NET](https://img.shields.io/badge/.NET-9.0+-512BD4?logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-Engineering-239120?logo=c-sharp&logoColor=white)
+![WPF](https://img.shields.io/badge/WPF-Desktop%203D-5C2D91)
+![HelixToolkit](https://img.shields.io/badge/HelixToolkit-Viewport3D-1f2937)
+![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?logo=three.js)
+![Architecture](https://img.shields.io/badge/Architecture-MVVM%20%7C%20Deterministic-0f172a)
 
-## Project Description
+</p>
 
-SurgicalVisualization is designed for surgical planning and instrument alignment scenarios where **precision, repeatability, and auditability** are critical. The application:
+A precision-focused 3D surgical model inspection platform built with WPF + HelixToolkit and a complementary Three.js browser implementation.
 
-- Loads STL/OBJ models on a dedicated STA thread and **deep-freezes** them for safe UI consumption.
-- Computes **deterministic metrics** (triangle count, bounding box, center of mass) using `double` precision.
-- Provides alignment tools based on **quaternion math** to orient the active model to a known target vector.
-- Emits UTC, invariant-culture logs for traceability and post-session analysis.
-
-This combination enables a reliable visualization pipeline and a consistent data trail for research or clinical simulation environments.
-
----
-
-## Key Capabilities
-
-- **3D Model Import**: STL and OBJ (with MTL + textures where available).
-- **Viewport Interaction**: rotate, pan, zoom, and reset controls.
-- **Deterministic Metrics**: triangle counts, bounding box sizes, center of mass, and load duration.
-- **Alignment Workflow**: aligns the principal axis of the model to a target vector using quaternion rotation.
-- **Telemetry**: FPS reporting, camera position/look direction, and orientation readouts.
-- **Export Tools**: screenshots and append-only log export.
+Designed around **deterministic geometry calculations, traceable logging, and clean MVVM separation** to support reproducible surgical guidance and alignment workflows.
 
 ---
 
-## Architecture Overview
+# Executive Overview
+
+**Surgical Visualization** demonstrates:
+
+- Real-time STL / OBJ rendering
+- Deterministic geometry metrics
+- Quaternion-based alignment workflows
+- Deep-freeze cross-thread safety for WPF 3D objects
+- Audit-ready logging (UTC + invariant culture)
+- Offline-first secure deployment design
+- Desktop + Browser rendering parity
+
+This project reflects engineering discipline suited for controlled environments such as:
+
+- Surgical simulation platforms  
+- Robotic guidance systems  
+- Research labs  
+- Government or defense visualization workflows  
+
+---
+
+# 🖥 Application Preview
+
+<p align="center">
+
+<img src="assets/desktop-wireframe.png" width="85%" />
+<br/><br/>
+<img src="assets/mesh-closeup.png" width="85%" />
+<br/><br/>
+<img src="assets/browser-viewer.png" width="85%" />
+
+</p>
+
+---
+
+# 🎬 Rendering & Processing Workflow
+
+<p align="center">
+<img src="assets/surgical-workflow.svg" width="90%" />
+</p>
+
+---
+
+# Core Capabilities
+
+### 3D Model Import
+- STL (binary & ASCII)
+- OBJ (with MTL + textures where available)
+
+### Deterministic Metrics
+- Triangle count
+- Bounding box dimensions
+- Center of mass (double precision)
+- Load duration timing
+
+### Alignment Engine
+- Quaternion-based rotation
+- Align principal axis to target vector
+- Repeatable orientation math
+
+### Telemetry
+- FPS reporting
+- Camera position & look direction
+- Orientation readouts
+
+### Export Tools
+- Screenshot capture
+- Append-only UTC log export
+
+---
+
+# Architecture Overview
 
 ```mermaid
 flowchart TD
@@ -50,14 +110,17 @@ flowchart TD
     Logger --> Logs[(Logs/system_log.txt)]
 ```
 
-**Highlights**
-- The **ModelLoader** runs on a dedicated **STA thread** to safely create WPF 3D objects.
-- All geometry artifacts are **deep-frozen** before they reach the UI layer.
-- **MainViewModel** is the orchestration hub, coordinating metrics, logging, and viewport updates.
+### Architectural Highlights
+
+- **Dedicated STA Thread** for WPF 3D object creation
+- **Deep-freeze geometry artifacts** before UI injection
+- Deterministic double-precision math
+- Strict MVVM orchestration layer
+- Append-only logging for traceability
 
 ---
 
-## Model Loading & Metrics Pipeline
+# Model Loading & Metrics Pipeline
 
 ```mermaid
 sequenceDiagram
@@ -78,7 +141,7 @@ sequenceDiagram
 
 ---
 
-## MVVM Interaction Diagram
+# MVVM Interaction Model
 
 ```mermaid
 flowchart LR
@@ -94,7 +157,59 @@ flowchart LR
 
 ---
 
-## Repository Layout
+# Desktop Rendering Stack
+
+- .NET 9.0 (adjustable to 8.0)
+- WPF
+- HelixToolkit.Wpf
+- Viewport3D GPU rendering
+- Deterministic math service
+- Thread-isolated model loading
+
+### Desktop Rendering Flow
+
+```
+User Loads STL / OBJ
+        ↓
+ModelLoader (STA Thread)
+        ↓
+PrecisionMathService
+        ↓
+Deep-Frozen Model3DGroup
+        ↓
+HelixViewport3D
+        ↓
+Interactive Camera Controls
+```
+
+---
+
+# Browser Rendering Stack
+
+Located at: `SurgicalVisualization/index.html`
+
+- Three.js
+- STLLoader
+- WebGL Renderer
+- Local static server required
+
+### Browser Flow
+
+```
+STL File
+   ↓
+Three.js STLLoader
+   ↓
+BufferGeometry
+   ↓
+Scene + Camera + Lighting
+   ↓
+WebGL Rendering Loop
+```
+
+---
+
+# Repository Layout
 
 ```
 SurgicalVisualization/
@@ -103,69 +218,97 @@ SurgicalVisualization/
 │  ├─ App.xaml / App.xaml.cs
 │  ├─ MainWindow.xaml / MainWindow.xaml.cs
 │  ├─ ViewModels/
-│  │  └─ MainViewModel.cs
 │  ├─ Models/
-│  │  ├─ ModelInfo.cs
-│  │  └─ CalibrationData.cs
 │  ├─ Services/
-│  │  ├─ ModelLoader.cs
-│  │  ├─ PrecisionMathService.cs
-│  │  └─ LoggerService.cs
 │  ├─ Helpers/
-│  │  ├─ RelayCommand.cs
-│  │  ├─ FileDialogHelper.cs
-│  │  └─ StaTask.cs
 │  ├─ Assets/
 │  ├─ Logs/
 │  └─ SurgicalVisualization.sln
+└─ assets/
+   ├─ desktop-main.png
+   ├─ desktop-wireframe.png
+   ├─ browser-viewer.png
+   ├─ mesh-closeup.png
+   └─ surgical-workflow.svg
 ```
 
 ---
 
-## Build & Run
+# Build & Run (Desktop)
 
-1. Open `SurgicalVisualization/SurgicalVisualization.sln` in Visual Studio 2022 or newer.
-2. Install the **.NET desktop development** workload if needed.
-3. Target `net9.0-windows` (or adjust to `net8.0-windows`).
-4. Restore NuGet packages, then **Build** and **Run**.
-5. Use **Load Model** to import STL/OBJ files.
-
-## Run in a Browser
-
-The repository also includes a browser viewer at `SurgicalVisualization/index.html`.
-
-1. Open a terminal in the repository root (`/workspace/SurgicalVisualization`) **or** in the `SurgicalVisualization/` subfolder.
-2. Start a local static web server (required so ES modules and local file loading work correctly):
-   ```bash
-   python -m http.server 8000
-   ```
-3. Open your browser to one of these URLs:
-   - If server started from repository root: `http://localhost:8000/` (auto-redirects to the viewer)
-   - Direct path from repository root: `http://localhost:8000/SurgicalVisualization/index.html`
-   - If server started inside `SurgicalVisualization/`: `http://localhost:8000/index.html`
-
-> If you saw `Error code: 404 File not found`, the server was likely started from a different directory than the URL path expects.
->
-> You should run through a local server rather than opening `index.html` directly from the filesystem (`file://`), otherwise browser security rules can block module imports and model loading.
+1. Open `SurgicalVisualization/SurgicalVisualization.sln`
+2. Use Visual Studio 2022+ or Rider
+3. Ensure .NET desktop workload is installed
+4. Target `net9.0-windows` (or `net8.0-windows`)
+5. Restore NuGet packages
+6. Build & Run
+7. Click **Load Model**
 
 ---
 
-## Logging & Determinism Notes
+# Run Browser Viewer
 
-- Logs are written in UTC ISO-8601 format to `SurgicalVisualization/Logs/system_log.txt`.
-- Metrics are computed using `double` precision and invariant culture formatting.
-- All imported geometry is deep-frozen to avoid cross-thread WPF access errors.
+From repository root:
+
+```bash
+python -m http.server 8000
+```
+
+Then open:
+
+```
+http://localhost:8000/SurgicalVisualization/index.html
+```
+
+> Do not open via `file://` — ES module loading requires a local server.
 
 ---
 
-## Troubleshooting Notes
+# Logging & Determinism
 
-- **OBJ not visible**: confirm `.mtl` and texture files are next to the `.obj` file.
-- **Black model**: missing textures may leave geometry unlit; try Reset View.
-- **Thread ownership errors**: ensure imports run through `ModelLoader` (STA + deep-freeze).
+- Logs written in UTC ISO-8601 format
+- Stored at `SurgicalVisualization/Logs/system_log.txt`
+- Invariant culture formatting
+- Double-precision calculations
+- All geometry deep-frozen before UI access
 
 ---
 
-## Additional Documentation
+# Troubleshooting
 
-For a more implementation-focused README, see `SurgicalVisualization/README.md` in the project directory.
+**OBJ not visible**
+- Ensure `.mtl` and texture files are colocated
+
+**Black model**
+- Missing textures or lighting — try Reset View
+
+**Thread ownership errors**
+- Confirm model import runs through `ModelLoader`
+
+---
+
+# Engineering Focus Areas
+
+This repository demonstrates:
+
+- Deterministic computational geometry
+- Cross-thread WPF 3D safety
+- Quaternion alignment math
+- MVVM separation of concerns
+- GPU-aware rendering design
+- Offline-first deployment thinking
+- Audit-friendly telemetry logging
+
+---
+
+# Roadmap
+
+- Measurement tools
+- Cross-sectional slicing
+- Annotation overlays
+- Multi-model comparison
+- DICOM integration
+- AI-assisted anomaly detection
+
+---
+
