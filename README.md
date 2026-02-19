@@ -309,3 +309,146 @@ This repository demonstrates:
 - AI-assisted anomaly detection
 
 ---
+
+---
+
+# 🧱 System Boundaries & Integration Model
+
+SurgicalVisualization is intentionally scoped as a **deterministic visualization and alignment engine**, not a full surgical robotics platform.
+
+### This Project Is
+
+- A 3D rendering and inspection subsystem
+- A deterministic geometry metrics engine
+- A reproducible alignment computation module
+- A traceable logging component
+
+### This Project Is Not
+
+- A DICOM ingestion pipeline
+- A robotics motion controller
+- A cloud-based analytics platform
+- A real-time surgical guidance engine
+
+It is designed to operate as a visualization and computational layer within a larger controlled system.
+
+---
+
+# 🖥 Operational Envelope
+
+### Hardware Assumptions
+
+- Mid-range GPU (DirectX 11+ compatible)
+- 16GB RAM recommended
+- Windows 10/11 environment
+
+### Geometry Envelope (Tested)
+
+- Stable rendering up to ~250k triangles
+- Deterministic metric computation at higher counts
+- Load times scale linearly with mesh complexity
+
+### Browser Constraints
+
+- WebGL performance dependent on browser GPU access
+- Metrics computation not fully deterministic (floating precision differences)
+- Local static server required for module loading
+
+---
+
+# ⚠ Failure Modes & Handling Strategy
+
+| Scenario | Behavior |
+|----------|----------|
+| Missing `.mtl` file | Geometry loads without texture |
+| Malformed STL | Loader exception captured + logged |
+| Degenerate triangles | Included in count but flagged in metrics |
+| Cross-thread access attempt | Prevented via deep-freeze strategy |
+| Texture load failure | Model rendered untextured |
+
+All load events are logged with UTC timestamps for post-session diagnostics.
+
+---
+
+# 🔐 Security & Data Handling Model
+
+- No external API calls
+- No telemetry transmission
+- No cloud dependencies
+- No data persistence beyond append-only log file
+- No dynamic code execution
+
+The system is designed for environments where:
+
+- Internet access may be restricted
+- Model data is sensitive
+- External service dependencies are prohibited
+
+This aligns with secure laboratory and defense-oriented workflows.
+
+---
+
+# 🔌 Extension Points
+
+The architecture supports clean expansion at defined boundaries:
+
+### Potential Future Modules
+
+- Mesh slicing service (pre-render geometry transform layer)
+- Measurement tool injection (overlay geometry analyzer)
+- DICOM conversion adapter (pre-loader transformation layer)
+- Robotics API integration (alignment export interface)
+- AI anomaly detection service (post-metrics analysis layer)
+
+These would integrate at the ViewModel orchestration boundary without modifying rendering primitives.
+
+---
+
+# 🏗 System Role in a Larger Surgical Stack
+
+Example layered integration:
+
+```
+Robotics Controller
+        ↓
+Alignment Export Interface
+        ↓
+SurgicalVisualization (This Project)
+        ↓
+ModelLoader + Metrics Engine
+        ↓
+3D Rendering Layer
+```
+
+This repository represents the deterministic visualization and geometry analysis tier in such an architecture.
+
+---
+
+# 📈 Engineering Characteristics
+
+This project demonstrates:
+
+- Deterministic computational geometry
+- Quaternion-based orientation control
+- Thread-safe WPF 3D object management
+- MVVM architectural discipline
+- GPU-aware rendering practices
+- Audit-friendly operational logging
+- Offline-first system design
+
+---
+
+# 🎯 Professional Positioning
+
+SurgicalVisualization is intentionally engineered with:
+
+- Controlled reproducibility
+- Mathematical precision
+- Thread isolation discipline
+- Clear architectural boundaries
+- Expansion-ready service layering
+
+This reflects systems-level engineering rather than UI-driven prototyping.
+
+---
+
