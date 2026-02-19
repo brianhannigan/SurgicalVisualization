@@ -1,39 +1,87 @@
-<svg width="1200" height="220" viewBox="0 0 1200 220" xmlns="http://www.w3.org/2000/svg">
-
+<svg width="1200" height="240" viewBox="0 0 1200 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SurgicalVisualization header">
   <defs>
+    <!-- Background gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#1e293b"/>
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#152238"/>
     </linearGradient>
 
+    <!-- Accent gradient -->
     <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#38bdf8"/>
       <stop offset="100%" stop-color="#22d3ee"/>
     </linearGradient>
+
+    <!-- Faint wireframe pattern -->
+    <pattern id="wire" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M0 0 L60 0 L60 60 L0 60 Z" fill="none" stroke="#93c5fd" stroke-opacity="0.06" stroke-width="1"/>
+      <path d="M0 30 L60 30 M30 0 L30 60" fill="none" stroke="#93c5fd" stroke-opacity="0.05" stroke-width="1"/>
+      <path d="M0 0 L60 60 M60 0 L0 60" fill="none" stroke="#93c5fd" stroke-opacity="0.03" stroke-width="1"/>
+    </pattern>
+
+    <!-- Soft glow -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
 
-  <rect width="1200" height="220" fill="url(#bg)" rx="20"/>
+  <!-- Base -->
+  <rect width="1200" height="240" rx="22" fill="url(#bg)"/>
 
-  <line x1="250" y1="110" x2="950" y2="110"
-        stroke="url(#accent)"
-        stroke-width="2"
-        opacity="0.35"/>
+  <!-- Wireframe overlay -->
+  <rect width="1200" height="240" rx="22" fill="url(#wire)"/>
 
-  <text x="50%" y="95"
-        text-anchor="middle"
-        fill="#f1f5f9"
-        font-family="Segoe UI, sans-serif"
-        font-size="42"
-        font-weight="600">
-        SurgicalVisualization
+  <!-- Subtle vignette -->
+  <rect width="1200" height="240" rx="22" fill="#000000" opacity="0.10"/>
+
+  <!-- Center accent line (animated pulse) -->
+  <line x1="220" y1="132" x2="980" y2="132" stroke="url(#accent)" stroke-width="2" opacity="0.22">
+    <animate attributeName="opacity" values="0.14;0.30;0.14" dur="4.8s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Surgical crosshair (right side) -->
+  <g transform="translate(1020 78)">
+    <!-- Outer pulse ring -->
+    <circle cx="70" cy="54" r="26" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.18" filter="url(#softGlow)">
+      <animate attributeName="r" values="22;28;22" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.10;0.22;0.10" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Inner ring -->
+    <circle cx="70" cy="54" r="18" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.20"/>
+
+    <!-- Cross lines -->
+    <line x1="70" y1="22" x2="70" y2="86" stroke="#e2e8f0" stroke-width="2" opacity="0.55"/>
+    <line x1="38" y1="54" x2="102" y2="54" stroke="#e2e8f0" stroke-width="2" opacity="0.55"/>
+
+    <!-- Small tick marks -->
+    <line x1="70" y1="14" x2="70" y2="18" stroke="#94a3b8" stroke-width="2" opacity="0.55"/>
+    <line x1="70" y1="90" x2="70" y2="94" stroke="#94a3b8" stroke-width="2" opacity="0.55"/>
+    <line x1="30" y1="54" x2="34" y2="54" stroke="#94a3b8" stroke-width="2" opacity="0.55"/>
+    <line x1="106" y1="54" x2="110" y2="54" stroke="#94a3b8" stroke-width="2" opacity="0.55"/>
+
+    <!-- Center dot -->
+    <circle cx="70" cy="54" r="2.5" fill="#22d3ee" opacity="0.55">
+      <animate attributeName="opacity" values="0.35;0.70;0.35" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Title -->
+  <text x="70" y="102" fill="#f1f5f9" font-family="Segoe UI, sans-serif" font-size="44" font-weight="650">
+    SurgicalVisualization
   </text>
 
-  <text x="50%" y="135"
-        text-anchor="middle"
-        fill="#94a3b8"
-        font-family="Segoe UI, sans-serif"
-        font-size="18">
-        Deterministic 3D Surgical Model Inspection Platform
+  <!-- Subtitle -->
+  <text x="70" y="142" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="18">
+    Deterministic 3D Surgical Model Inspection Platform • WPF (HelixToolkit) + Browser (Three.js)
   </text>
 
+  <!-- Micro-tagline -->
+  <text x="70" y="172" fill="#cbd5e1" font-family="Segoe UI, sans-serif" font-size="14" opacity="0.75">
+    Precision • Repeatability • Auditability • Offline-First
+  </text>
 </svg>
