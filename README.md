@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/header.svg" width="100%" />
+  <img src="SurgicalVisualization/Assets/header.svg" width="100%" />
 </p>
 ---
 # 🧠 SurgicalVisualization
