@@ -1,0 +1,39 @@
+<svg width="1200" height="220" viewBox="0 0 1200 220" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="220" fill="url(#bg)" rx="20"/>
+
+  <line x1="250" y1="110" x2="950" y2="110"
+        stroke="url(#accent)"
+        stroke-width="2"
+        opacity="0.35"/>
+
+  <text x="50%" y="95"
+        text-anchor="middle"
+        fill="#f1f5f9"
+        font-family="Segoe UI, sans-serif"
+        font-size="42"
+        font-weight="600">
+        SurgicalVisualization
+  </text>
+
+  <text x="50%" y="135"
+        text-anchor="middle"
+        fill="#94a3b8"
+        font-family="Segoe UI, sans-serif"
+        font-size="18">
+        Deterministic 3D Surgical Model Inspection Platform
+  </text>
+
+</svg>
