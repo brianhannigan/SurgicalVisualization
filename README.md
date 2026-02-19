@@ -48,11 +48,11 @@ This project reflects engineering discipline suited for controlled environments 
 
 <p align="center">
 
-<img src="assets/desktop-wireframe.png" width="85%" />
+<img src="assets/screens/desktop-wireframe.png" width="85%" />
 <br/><br/>
-<img src="assets/mesh-closeup.png" width="85%" />
+<img src="assets/screens/mesh-closeup.png" width="85%" />
 <br/><br/>
-<img src="assets/browser-viewer.png" width="85%" />
+<img src="assets/screens/browser-viewer.png" width="85%" />
 
 </p>
 
@@ -61,7 +61,7 @@ This project reflects engineering discipline suited for controlled environments 
 # 🎬 Rendering & Processing Workflow
 
 <p align="center">
-<img src="assets/surgical-workflow.svg" width="90%" />
+<img src="assets/demo/surgical-workflow.svg" width="90%" />
 </p>
 
 ---
